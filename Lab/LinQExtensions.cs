@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lab.Entities;
 
 namespace Lab
 {
     public static class LinQExtensions
     {
-        public static List<TSource> JoeyWhere<TSource>(this List<TSource> source, Func<TSource, bool> predicate)
+        public static List<TSource> JoeyWhere<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             var result = new List<TSource>();
             foreach (var item in source)
@@ -19,7 +20,7 @@ namespace Lab
             return result;
         }
 
-        public static List<TSource> JoeyWhereWithIndex<TSource>(this List<TSource> numbers, Func<TSource, int, bool> predicate)
+        public static List<TSource> JoeyWhereWithIndex<TSource>(this IEnumerable<TSource> numbers, Func<TSource, int, bool> predicate)
         {
             var index = 0;
             var result = new List<TSource>();
@@ -37,24 +38,24 @@ namespace Lab
             return result;
         }
 
-        public static IEnumerable<string> JoeySelect(this IEnumerable<string> urls, Func<string, string> selector)
+        public static IEnumerable<TResult> JoeySelect<TSource,TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            var result = new List<string>();
-            foreach (var url in urls)
+            var result = new List<TResult>();
+            foreach (var item in source)
             {
-                result.Add(selector(url));
+                result.Add(selector(item));
             }
 
             return result;
         }
 
-        public static List<string> JoeySelect(this IEnumerable<string> urls, Func<string, int, string> selector)
+        public static List<string> JoeySelect(this IEnumerable<string> source, Func<string, int, string> selector)
         {
             var index = 0;
             var result = new List<string>();
-            foreach (var url in urls)
+            foreach (var item in source)
             {
-                result.Add(selector(url, index));
+                result.Add(selector(item, index));
                 index++;
             }
 
