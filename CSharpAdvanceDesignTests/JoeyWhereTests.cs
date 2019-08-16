@@ -1,9 +1,9 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
-using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -19,7 +19,7 @@ namespace CSharpAdvanceDesignTests
             new Product {Id = 5, Cost = 51, Price = 510, Supplier = "Momo"},
             new Product {Id = 6, Cost = 61, Price = 610, Supplier = "Momo"},
             new Product {Id = 7, Cost = 71, Price = 710, Supplier = "Yahoo"},
-            new Product {Id = 8, Cost = 18, Price = 780, Supplier = "Yahoo"}
+            new Product {Id = 8, Cost = 81, Price = 780, Supplier = "Yahoo"}
         };
 
         [Test]
@@ -70,6 +70,32 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldMatch(actual);
+        }
+
+        [Test]
+        public void find_the_first_one_and_skip_second_one_and_take_other_positive_numbers()
+        {
+            var numbers = new List<int> { 1, 2, 3, 4, -5 };
+            var actual = JoeyWhereWithIndex(numbers);
+            var expected = new List<int> { 1, 3, 4 };
+            expected.ToExpectedObject().ShouldMatch(actual);
+        }
+
+        private List<int> JoeyWhereWithIndex(List<int> numbers)
+        {
+            var index = 0;
+            var result = new List<int>();
+
+            foreach (var number in numbers)
+            {
+                if (index != 1 && number > 0)
+                {
+                    result.Add(number);
+                }
+                index++;
+            }
+
+            return result;
         }
     }
 }
