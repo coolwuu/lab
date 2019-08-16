@@ -1,15 +1,15 @@
-﻿using ExpectedObjects;
+﻿using System;
+using ExpectedObjects;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture()]
-    [Ignore("not yet")]
     public class JoeySkipWhileTests
     {
         [Test]
@@ -26,7 +26,7 @@ namespace CSharpAdvanceDesignTests
                 new Card {Kind = CardKind.Separate},
             };
 
-            var actual = JoeySkipWhile(cards);
+            var actual = cards.JoeySkipWhile(card => card.Kind != CardKind.Separate);
 
             var expected = new List<Card>
             {
@@ -36,12 +36,7 @@ namespace CSharpAdvanceDesignTests
                 new Card {Kind = CardKind.Separate},
             };
 
-            expected.ToExpectedObject().ShouldEqual(actual.ToList());
-        }
-
-        private IEnumerable<Card> JoeySkipWhile(IEnumerable<Card> cards)
-        {
-            throw new NotImplementedException();
+            expected.ToExpectedObject().ShouldMatch(actual.ToList());
         }
     }
 }

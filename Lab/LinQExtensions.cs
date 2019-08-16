@@ -1,5 +1,4 @@
-﻿using Lab.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Lab
@@ -85,14 +84,29 @@ namespace Lab
             var enumerator = source.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                var card = enumerator.Current;
-                if (predicate(card))
+                var item = enumerator.Current;
+                if (predicate(item))
                 {
-                    yield return card;
+                    yield return item;
                 }
                 else
                 {
                     yield break;
+                }
+            }
+        }
+
+        public static IEnumerable<TSource> JoeySkipWhile<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var enumerator = source.GetEnumerator();
+            var shouldContinueReturn = false;
+            while (enumerator.MoveNext())
+            {
+                var item = enumerator.Current;
+                if (!predicate(item) || shouldContinueReturn)
+                {
+                    yield return item;
+                    shouldContinueReturn = true;
                 }
             }
         }
