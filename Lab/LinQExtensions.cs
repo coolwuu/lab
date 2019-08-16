@@ -53,14 +53,29 @@ namespace Lab
             }
         }
 
-        public static IEnumerable<TSource> JoeyTake<TSource>(this IEnumerable<TSource> source, int requestedCount)
+        public static IEnumerable<TSource> JoeyTake<TSource>(this IEnumerable<TSource> source, int count)
         {
             var alreadyReturnCount = 1;
             var enumerator = source.GetEnumerator();
-            while (enumerator.MoveNext() && alreadyReturnCount <= requestedCount)
+            while (enumerator.MoveNext() && alreadyReturnCount <= count)
             {
                 yield return enumerator.Current;
                 alreadyReturnCount++;
+            }
+        }
+
+        public static IEnumerable<TSource> JoeySkip<TSource>(this IEnumerable<TSource> source, int count)
+        {
+            var enumerator = source.GetEnumerator();
+            var skippedCount = 0;
+            while (enumerator.MoveNext())
+            {
+                if (skippedCount >= count)
+                {
+                    yield return enumerator.Current;
+                }
+
+                skippedCount++;
             }
         }
     }
