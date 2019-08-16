@@ -2,8 +2,8 @@
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
 using System.Collections.Generic;
+using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -25,7 +25,7 @@ namespace CSharpAdvanceDesignTests
         [Test]
         public void find_products_that_price_between_200_and_500()
         {
-            var actual = JoeyWhere(_products, product => product.Price > 200 && product.Price < 500);
+            var actual = _products.JoeyWhere(product => product.Price > 200 && product.Price < 500);
 
             var expected = new List<Product>
             {
@@ -40,8 +40,7 @@ namespace CSharpAdvanceDesignTests
         [Test]
         public void find_products_that_price_between_200_and_500_and_cost_less_than_30()
         {
-            var actual = JoeyWhere(_products,
-                product => product.Price > 200 && product.Price < 500 && product.Cost < 30);
+            var actual = _products.JoeyWhere(product => product.Price > 200 && product.Price < 500 && product.Cost < 30);
 
             var expected = new List<Product>
             {
@@ -62,7 +61,7 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "May", LastName = "Chen"},
             };
 
-            var actual = JoeyWhere(employees, e => e.FirstName.Length < 5);
+            var actual = employees.JoeyWhere(employee => employee.FirstName.Length < 5);
 
             var expected = new List<Employee>
             {
@@ -71,20 +70,6 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private List<TSource> JoeyWhere<TSource>(List<TSource> source, Func<TSource, bool> predicate)
-        {
-            var result = new List<TSource>();
-            foreach (var item in source)
-            {
-                if (predicate(item))
-                {
-                    result.Add(item);
-                }
-            }
-
-            return result;
         }
     }
 }
