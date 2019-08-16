@@ -48,10 +48,10 @@ namespace Lab
             return result;
         }
 
-        public static List<string> JoeySelectWithIndex(this IEnumerable<string> urls, Func<string, int, string> selector)
+        public static List<string> JoeySelect(this IEnumerable<string> urls, Func<string, int, string> selector)
         {
-            var result = new List<string>();
             var index = 0;
+            var result = new List<string>();
             foreach (var url in urls)
             {
                 result.Add(selector(url, index));
