@@ -4,6 +4,7 @@ using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -62,7 +63,7 @@ namespace CSharpAdvanceDesignTests
             };
 
             var actual = employees.JoeyWhere(employee => employee.FirstName.Length < 5);
-
+            //var actual = employees.Where(e => e.FirstName.Length < 5);
             var expected = new List<Employee>
             {
                 new Employee {FirstName = "Joey", LastName = "Chen"},
@@ -78,6 +79,22 @@ namespace CSharpAdvanceDesignTests
             var numbers = new List<int> { 1, 2, 3, 4, -5 };
             var actual = numbers.JoeyWhere((number, index) => index != 1 && number > 0);
             var expected = new List<int> { 1, 3, 4 };
+            expected.ToExpectedObject().ShouldMatch(actual);
+        }
+
+        [Test]
+        public void find_price_more_than_700_and_select_id_and_price()
+        {
+            var actual = _products
+                .JoeyWhere(product => product.Price > 700)
+                .JoeySelect(p => $"{p.Id}-{p.Price}");
+
+            var expected = new[]
+            {
+                "7-710",
+                "8-780",
+            };
+
             expected.ToExpectedObject().ShouldMatch(actual);
         }
     }

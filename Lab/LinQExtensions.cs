@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lab.Entities;
 
 namespace Lab
 {
@@ -49,6 +50,17 @@ namespace Lab
             while (enumerator.MoveNext())
             {
                 yield return selector(enumerator.Current, index);
+                index++;
+            }
+        }
+
+        public static IEnumerable<Employee> JoeyTake(this IEnumerable<Employee> employees, int count)
+        {
+            var enumerator = employees.GetEnumerator();
+            var index = 0;
+            while (enumerator.MoveNext() && index < count)
+            {
+                yield return enumerator.Current;
                 index++;
             }
         }
