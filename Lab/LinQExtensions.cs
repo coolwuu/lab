@@ -1,65 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using Lab.Entities;
 
 namespace Lab
 {
     public static class LinQExtensions
     {
-        public static List<TSource> JoeyWhere<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public static IEnumerable<TSource> JoeyWhere<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, bool> predicate)
         {
-            var result = new List<TSource>();
-            foreach (var item in source)
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                if (predicate(item))
+                if (predicate(enumerator.Current))
                 {
-                    result.Add(item);
+                    yield return enumerator.Current;
                 }
             }
-
-            return result;
         }
 
-        public static List<TSource> JoeyWhereWithIndex<TSource>(this IEnumerable<TSource> numbers, Func<TSource, int, bool> predicate)
+        public static IEnumerable<TSource> JoeyWhere<TSource>(this IEnumerable<TSource> source, Func<TSource, int, bool> predicate)
         {
             var index = 0;
-            var result = new List<TSource>();
-
-            foreach (var number in numbers)
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                if (predicate(number, index))
+                if (predicate(enumerator.Current, index))
                 {
-                    result.Add(number);
+                    yield return enumerator.Current;
                 }
 
                 index++;
             }
-
-            return result;
         }
 
-        public static IEnumerable<TResult> JoeySelect<TSource,TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        public static IEnumerable<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            var result = new List<TResult>();
-            foreach (var item in source)
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                result.Add(selector(item));
+                yield return selector(enumerator.Current);
             }
-
-            return result;
         }
 
-        public static List<string> JoeySelect(this IEnumerable<string> source, Func<string, int, string> selector)
+        public static IEnumerable<TSource> JoeySelect<TSource>(this IEnumerable<TSource> source, Func<TSource, int, TSource> selector)
         {
             var index = 0;
-            var result = new List<string>();
-            foreach (var item in source)
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                result.Add(selector(item, index));
+                yield return selector(enumerator.Current, index);
                 index++;
             }
-
-            return result;
         }
     }
 }
