@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Lab
@@ -76,6 +77,23 @@ namespace Lab
                 }
 
                 skippedCount++;
+            }
+        }
+
+        public static IEnumerable<TSource> JoeyTakeWhile<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var card = enumerator.Current;
+                if (predicate(card))
+                {
+                    yield return card;
+                }
+                else
+                {
+                    yield break;
+                }
             }
         }
     }
