@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Lab.Entities;
 
 namespace Lab
 {
@@ -54,10 +53,10 @@ namespace Lab
             }
         }
 
-        public static IEnumerable<Employee> JoeyTake(this IEnumerable<Employee> employees, int count)
+        public static IEnumerable<TSource> JoeyTake<TSource>(this IEnumerable<TSource> source, int count)
         {
-            var enumerator = employees.GetEnumerator();
             var index = 0;
+            var enumerator = source.GetEnumerator();
             while (enumerator.MoveNext() && index < count)
             {
                 yield return enumerator.Current;
