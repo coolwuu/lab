@@ -235,5 +235,15 @@ namespace Lab
 
             return result;
         }
+
+        public static IEnumerable<TSource> JoeyDefaultIfEmpty<TSource>(this IEnumerable<TSource> source, TSource defaultData)
+        {
+            return source.IsEmpty() ? DefaultResult(defaultData) : source;
+        }
+
+        private static IEnumerable<TSource> DefaultResult<TSource>(TSource defaultData)
+        {
+            yield return defaultData;
+        }
     }
 }

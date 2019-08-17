@@ -1,4 +1,5 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture()]
-    [Ignore("not yet")]
     public class JoeyWhereWithDefaultTests
     {
         [Test]
@@ -20,21 +20,12 @@ namespace CSharpAdvanceDesignTests
                 new Employee() {FirstName = "David", LastName = "Wang", Role = Role.Designer},
             };
 
-            var actual = WhereWithDefault(
-                employees,
-                e => e.Role == Role.Manager,
-                new Employee { FirstName = "Joey", LastName = "Chen", Role = Role.Engineer });
+            var actual = employees.JoeyWhere(e => e.Role == Role.Manager).JoeyDefaultIfEmpty(new Employee { FirstName = "Joey", LastName = "Chen", Role = Role.Engineer });
 
             var expected = new List<Employee>
                 {new Employee() {FirstName = "Joey", LastName = "Chen", Role = Role.Engineer}};
 
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private IEnumerable<Employee> WhereWithDefault(IEnumerable<Employee> employees, Func<Employee, bool> predicate,
-            Employee defaultEmployee)
-        {
-            throw new NotImplementedException();
         }
     }
 }
