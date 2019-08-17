@@ -20,7 +20,9 @@ namespace CSharpAdvanceDesignTests
                 new Employee() {FirstName = "David", LastName = "Wang", Role = Role.Designer},
             };
 
-            var actual = employees.JoeyWhere(e => e.Role == Role.Manager).JoeyDefaultIfEmpty(new Employee { FirstName = "Joey", LastName = "Chen", Role = Role.Engineer });
+            var actual = employees
+                    .JoeyWhere(e => e.Role == Role.Manager)
+                    .JoeyDefaultIfEmpty(new Employee { FirstName = "Joey", LastName = "Chen", Role = Role.Engineer });
 
             var expected = new List<Employee>
                 {new Employee() {FirstName = "Joey", LastName = "Chen", Role = Role.Engineer}};
