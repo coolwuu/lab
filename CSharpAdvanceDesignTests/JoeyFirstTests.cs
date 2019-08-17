@@ -1,12 +1,12 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
-using System.Collections.Generic;
+using System;
 
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture]
-    [Ignore("not yet")]
     public class JoeyFirstTests
     {
         [Test]
@@ -19,15 +19,20 @@ namespace CSharpAdvanceDesignTests
                 new Girl(){Age = 30},
             };
 
-            var girl = JoeyFirst(girls);
+            var girl = girls.JoeyFirst();
             var expected = new Girl { Age = 10 };
 
             expected.ToExpectedObject().ShouldEqual(girl);
         }
 
-        private Girl JoeyFirst(IEnumerable<Girl> girls)
+        [Test]
+        public void get_first_girl_when_girls_are_empty()
         {
-            throw new System.NotImplementedException();
+            var girls = new Girl[]
+            {
+            };
+
+            Assert.Throws<InvalidOperationException>(() => girls.JoeyFirst());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lab.Entities;
 
 namespace Lab
 {
@@ -166,6 +167,17 @@ namespace Lab
             }
 
             return counter;
+        }
+
+        public static TSource JoeyFirst<TSource>(this IEnumerable<TSource> source)
+        {
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                return enumerator.Current;
+            }
+
+            throw new InvalidOperationException();
         }
     }
 }
