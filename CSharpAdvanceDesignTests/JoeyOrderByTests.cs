@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CSharpAdvanceDesignTests
 {
-    public class CombineKeyComparer
+    public class CombineKeyComparer : IComparer<Employee>
     {
         public CombineKeyComparer(Func<Employee, string> keySelector, IComparer<string> keyComparer)
         {
@@ -18,9 +18,9 @@ namespace CSharpAdvanceDesignTests
         private Func<Employee, string> KeySelector { get; set; }
         private IComparer<string> KeyComparer { get; set; }
 
-        public int Compare(Employee currentElement, Employee minElement)
+        public int Compare(Employee x, Employee y)
         {
-            return KeyComparer.Compare(KeySelector(currentElement), KeySelector(minElement));
+            return KeyComparer.Compare(KeySelector(x), KeySelector(y));
         }
     }
 
@@ -79,8 +79,8 @@ namespace CSharpAdvanceDesignTests
 
         private static IEnumerable<Employee> JoeyOrderByLastName(
             IEnumerable<Employee> employees,
-            CombineKeyComparer firstCombineKeyComparer,
-            CombineKeyComparer secondCombineKeyComparer)
+            IComparer<Employee> firstCombineKeyComparer,
+            IComparer<Employee> secondCombineKeyComparer)
         {
             //bubble sort
             var elements = employees.ToList();
