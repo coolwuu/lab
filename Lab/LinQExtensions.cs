@@ -153,6 +153,11 @@ namespace Lab
 
         public static int JoeyCount<TSource>(this IEnumerable<TSource> source)
         {
+            if (source is ICollection<TSource> n)
+            {
+                return n.Count;
+            }
+            
             var enumerator = source.GetEnumerator();
             var counter = 0;
             while (enumerator.MoveNext())
