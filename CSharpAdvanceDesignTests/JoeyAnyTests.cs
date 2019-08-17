@@ -1,6 +1,6 @@
-﻿using Lab.Entities;
+﻿using Lab;
+using Lab.Entities;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -17,7 +17,7 @@ namespace CSharpAdvanceDesignTests
                 new Employee(),
             };
 
-            var actual = JoeyAny(employees);
+            var actual = employees.JoeyAny();
             Assert.IsTrue(actual);
         }
 
@@ -28,13 +28,16 @@ namespace CSharpAdvanceDesignTests
             {
             };
 
-            var actual = JoeyAny(emptyEmployees);
+            var actual = emptyEmployees.JoeyAny();
             Assert.IsFalse(actual);
         }
 
-        private bool JoeyAny(IEnumerable<Employee> employees)
+        [Test]
+        public void any_number_greater_than_91()
         {
-            return employees.GetEnumerator().MoveNext();
+            var numbers = new[] { 87, 88, 91, 93, 0 };
+            var actual = numbers.JoeyAnyWithCondition(number => number > 91);
+            Assert.IsTrue(actual);
         }
     }
 }
