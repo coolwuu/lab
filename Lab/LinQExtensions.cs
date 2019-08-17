@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lab.Entities;
 
 namespace Lab
 {
@@ -158,7 +157,7 @@ namespace Lab
             {
                 return n.Count;
             }
-            
+
             var enumerator = source.GetEnumerator();
             var counter = 0;
             while (enumerator.MoveNext())
@@ -189,6 +188,23 @@ namespace Lab
             }
 
             return default(TSource);
+        }
+
+        public static TSource JoeyLast<TSource>(this IEnumerable<TSource> numbers)
+        {
+            var enumerator = numbers.GetEnumerator();
+            if (!enumerator.MoveNext())
+            {
+                throw new InvalidOperationException();
+            }
+
+            var result = enumerator.Current;
+            while (enumerator.MoveNext())
+            {
+                result = enumerator.Current;
+            }
+
+            return result;
         }
     }
 }
