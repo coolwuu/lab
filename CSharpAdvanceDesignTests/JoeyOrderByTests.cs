@@ -7,35 +7,35 @@ using System.Linq;
 
 namespace CSharpAdvanceDesignTests
 {
-    public class CombineKeyComparer : IComparer<Employee>
+    public class CombineKeyComparer<T, TKey> : IComparer<T>
     {
-        public CombineKeyComparer(Func<Employee, string> keySelector, IComparer<string> keyComparer)
+        public CombineKeyComparer(Func<T, TKey> keySelector, IComparer<TKey> keyComparer)
         {
             KeySelector = keySelector;
             KeyComparer = keyComparer;
         }
 
-        private Func<Employee, string> KeySelector { get; set; }
-        private IComparer<string> KeyComparer { get; set; }
+        private Func<T, TKey> KeySelector { get; set; }
+        private IComparer<TKey> KeyComparer { get; set; }
 
-        public int Compare(Employee x, Employee y)
+        public int Compare(T x, T y)
         {
             return KeyComparer.Compare(KeySelector(x), KeySelector(y));
         }
     }
 
-    public class ComboComparer : IComparer<Employee>
+    public class ComboComparer<T> : IComparer<T>
     {
-        public ComboComparer(IComparer<Employee> firstComparer, IComparer<Employee> secondComparer)
+        public ComboComparer(IComparer<T> firstComparer, IComparer<T> secondComparer)
         {
             FirstComparer = firstComparer;
             SecondComparer = secondComparer;
         }
 
-        private IComparer<Employee> FirstComparer { get; set; }
-        private IComparer<Employee> SecondComparer { get; set; }
+        private IComparer<T> FirstComparer { get; set; }
+        private IComparer<T> SecondComparer { get; set; }
 
-        public int Compare(Employee x, Employee y)
+        public int Compare(T x, T y)
         {
             var firstCompareResult = FirstComparer.Compare(x, y);
             if (firstCompareResult != 0)
@@ -61,7 +61,7 @@ namespace CSharpAdvanceDesignTests
         //        new Employee {FirstName = "Joey", LastName = "Chen"},
         //    };
 
-        //    var actual = JoeyOrderByLastName(employees);
+        //    var actual = OrderBy(employees);
 
         //    var expected = new[]
         //    {
@@ -85,11 +85,13 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Joey", LastName = "Chen"},
             };
 
-            var firstComparer = new CombineKeyComparer(employee => employee.LastName, Comparer<string>.Default);
-            var secondComparer = new CombineKeyComparer(employee => employee.FirstName, Comparer<string>.Default);
-            var comparer = new ComboComparer(firstComparer, secondComparer);
+            var firstComparer =
+                new CombineKeyComparer<Employee, string>(employee => employee.LastName, Comparer<string>.Default);
+            var secondComparer =
+                new CombineKeyComparer<Employee, string>(employee => employee.FirstName, Comparer<string>.Default);
+            var comparer = new ComboComparer<Employee>(firstComparer, secondComparer);
 
-            var actual = JoeyOrderByLastName(employees, comparer);
+            var actual = OrderBy(employees, comparer);
 
             var expected = new[]
             {
@@ -102,8 +104,8 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private static IEnumerable<Employee> JoeyOrderByLastName(
-            IEnumerable<Employee> employees, IComparer<Employee> comparer)
+        private static IEnumerable<TSource> OrderBy<TSource>(
+            IEnumerable<TSource> employees, IComparer<TSource> comparer)
         {
             //bubble sort
             var elements = employees.ToList();
