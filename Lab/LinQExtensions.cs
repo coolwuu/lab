@@ -179,5 +179,16 @@ namespace Lab
 
             throw new InvalidOperationException();
         }
+
+        public static TSource JoeyFirstOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                return enumerator.Current;
+            }
+
+            return default(TSource);
+        }
     }
 }

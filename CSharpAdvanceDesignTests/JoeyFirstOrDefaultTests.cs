@@ -1,4 +1,5 @@
-﻿using Lab.Entities;
+﻿using Lab;
+using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
@@ -13,20 +14,19 @@ namespace CSharpAdvanceDesignTests
         {
             var employees = new List<Employee>();
 
-            var actual = JoeyFirstOrDefault(employees);
+            var actual = employees.JoeyFirstOrDefault();
 
             Assert.IsNull(actual);
         }
 
-        private static TSource JoeyFirstOrDefault<TSource>(IEnumerable<TSource> source)
+        [Test]
+        public void empty_numbers_with_int()
         {
-            var enumerator = source.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                return enumerator.Current;
-            }
+            var numbers = new List<int>();
 
-            return default(TSource);
+            var actual = numbers.JoeyFirstOrDefault();
+
+            Assert.AreEqual(0, actual);
         }
     }
 }
