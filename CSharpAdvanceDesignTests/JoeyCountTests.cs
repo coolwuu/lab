@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture]
-    [Ignore("not yet")]
     public class JoeyCountTests
     {
         [Test]
@@ -12,14 +12,9 @@ namespace CSharpAdvanceDesignTests
         {
             var numbers = new[] { 10, 20, 30, 40, 50 };
 
-            var count = JoeyCount(numbers);
+            var count = numbers.JoeyCount();
             var expected = 5;
             Assert.AreEqual(expected, count);
-        }
-
-        private int JoeyCount(IEnumerable<int> numbers)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
