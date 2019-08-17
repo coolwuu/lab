@@ -6,7 +6,6 @@ using System.Collections.Generic;
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture()]
-    [Ignore("not yet")]
     public class JoeyLastOrDefaultTests
     {
         [Test]
@@ -17,9 +16,21 @@ namespace CSharpAdvanceDesignTests
             Assert.IsNull(actual);
         }
 
-        private Employee JoeyLastOrDefault(IEnumerable<Employee> employees)
+        private TSource JoeyLastOrDefault<TSource>(IEnumerable<TSource> source)
         {
-            throw new System.NotImplementedException();
+            var enumerator = source.GetEnumerator();
+            if (!enumerator.MoveNext())
+            {
+                return default(TSource);
+            }
+
+            var result = enumerator.Current;
+            while (enumerator.MoveNext())
+            {
+                result = enumerator.Current;
+            }
+
+            return result;
         }
     }
 }

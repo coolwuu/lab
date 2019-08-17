@@ -190,9 +190,9 @@ namespace Lab
             return default(TSource);
         }
 
-        public static TSource JoeyLast<TSource>(this IEnumerable<TSource> numbers)
+        public static TSource JoeyLast<TSource>(this IEnumerable<TSource> source)
         {
-            var enumerator = numbers.GetEnumerator();
+            var enumerator = source.GetEnumerator();
             if (!enumerator.MoveNext())
             {
                 throw new InvalidOperationException();
