@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Lab.Entities;
+using System.Linq;
 
 namespace Lab
 {
@@ -112,9 +112,9 @@ namespace Lab
             }
         }
 
-        public static bool JoeyAnyWithCondition(this IEnumerable<int> numbers, Func<int, bool> predicate)
+        public static bool JoeyAny<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            var enumerator = numbers.GetEnumerator();
+            var enumerator = source.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 var number = enumerator.Current;
@@ -126,9 +126,14 @@ namespace Lab
             return false;
         }
 
-        public static bool JoeyAny(this IEnumerable<Employee> employees)
+        public static bool IsEmpty<TSource>(this IEnumerable<TSource> source)
         {
-            return employees.GetEnumerator().MoveNext();
+            return !source.Any();
+        }
+
+        public static bool JoeyAny<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.GetEnumerator().MoveNext();
         }
     }
 }
