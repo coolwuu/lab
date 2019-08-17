@@ -139,17 +139,16 @@ namespace Lab
         public static bool JoeyAll<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             var enumerator = source.GetEnumerator();
-            var isAllMatch = true;
             while (enumerator.MoveNext())
             {
                 var item = enumerator.Current;
                 if (!predicate(item))
                 {
-                    isAllMatch = false;
+                    return false;
                 }
             }
 
-            return isAllMatch;
+            return true;
         }
     }
 }
