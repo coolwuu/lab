@@ -62,9 +62,12 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Joey", LastName = "Chen"},
             };
 
+            var firstComparer = new CombineKeyComparer(employee => employee.LastName, Comparer<string>.Default);
+            var secondComparer = new CombineKeyComparer(employee => employee.FirstName, Comparer<string>.Default);
+
             var actual = JoeyOrderByLastName(employees,
-                new CombineKeyComparer(employee => employee.LastName, Comparer<string>.Default),
-                new CombineKeyComparer(employee => employee.FirstName, Comparer<string>.Default));
+                firstComparer,
+                secondComparer);
 
             var expected = new[]
             {
@@ -79,8 +82,8 @@ namespace CSharpAdvanceDesignTests
 
         private static IEnumerable<Employee> JoeyOrderByLastName(
             IEnumerable<Employee> employees,
-            IComparer<Employee> firstCombineKeyComparer,
-            IComparer<Employee> secondCombineKeyComparer)
+            IComparer<Employee> firstComparer,
+            IComparer<Employee> secondComparer)
         {
             //bubble sort
             var elements = employees.ToList();
@@ -91,7 +94,7 @@ namespace CSharpAdvanceDesignTests
                 for (int i = 1; i < elements.Count; i++)
                 {
                     var currentElement = elements[i];
-                    var firstCompareResult = firstCombineKeyComparer.Compare(currentElement, minElement);
+                    var firstCompareResult = firstComparer.Compare(currentElement, minElement);
                     if (firstCompareResult < 0)
                     {
                         minElement = currentElement;
@@ -99,7 +102,7 @@ namespace CSharpAdvanceDesignTests
                     }
                     else if (firstCompareResult == 0)
                     {
-                        var secondCompareResult = secondCombineKeyComparer.Compare(currentElement, minElement);
+                        var secondCompareResult = secondComparer.Compare(currentElement, minElement);
                         if (secondCompareResult < 0)
                         {
                             minElement = currentElement;
