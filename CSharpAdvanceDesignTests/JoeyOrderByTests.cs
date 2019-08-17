@@ -24,6 +24,29 @@ namespace CSharpAdvanceDesignTests
         }
     }
 
+    public class ComboComparer : IComparer<Employee>
+    {
+        public ComboComparer(IComparer<Employee> firstComparer, IComparer<Employee> secondComparer)
+        {
+            FirstComparer = firstComparer;
+            SecondComparer = secondComparer;
+        }
+
+        private IComparer<Employee> FirstComparer { get; set; }
+        private IComparer<Employee> SecondComparer { get; set; }
+
+        public int Compare(Employee x, Employee y)
+        {
+            var firstCompareResult = FirstComparer.Compare(x, y);
+            if (firstCompareResult != 0)
+            {
+                return firstCompareResult;
+            }
+
+            return SecondComparer.Compare(x, y);
+        }
+    }
+
     [TestFixture]
     public class JoeyOrderByTests
     {
@@ -64,10 +87,9 @@ namespace CSharpAdvanceDesignTests
 
             var firstComparer = new CombineKeyComparer(employee => employee.LastName, Comparer<string>.Default);
             var secondComparer = new CombineKeyComparer(employee => employee.FirstName, Comparer<string>.Default);
+            var comparer = new ComboComparer(firstComparer, secondComparer);
 
-            var actual = JoeyOrderByLastName(employees,
-                firstComparer,
-                secondComparer);
+            var actual = JoeyOrderByLastName(employees, comparer);
 
             var expected = new[]
             {
@@ -81,9 +103,7 @@ namespace CSharpAdvanceDesignTests
         }
 
         private static IEnumerable<Employee> JoeyOrderByLastName(
-            IEnumerable<Employee> employees,
-            IComparer<Employee> firstComparer,
-            IComparer<Employee> secondComparer)
+            IEnumerable<Employee> employees, IComparer<Employee> comparer)
         {
             //bubble sort
             var elements = employees.ToList();
@@ -94,20 +114,11 @@ namespace CSharpAdvanceDesignTests
                 for (int i = 1; i < elements.Count; i++)
                 {
                     var currentElement = elements[i];
-                    var firstCompareResult = firstComparer.Compare(currentElement, minElement);
-                    if (firstCompareResult < 0)
+                    var finalResult = comparer.Compare(currentElement, minElement);
+                    if (finalResult < 0)
                     {
                         minElement = currentElement;
                         index = i;
-                    }
-                    else if (firstCompareResult == 0)
-                    {
-                        var secondCompareResult = secondComparer.Compare(currentElement, minElement);
-                        if (secondCompareResult < 0)
-                        {
-                            minElement = currentElement;
-                            index = i;
-                        }
                     }
                 }
 
