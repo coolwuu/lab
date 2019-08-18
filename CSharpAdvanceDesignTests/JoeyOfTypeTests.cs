@@ -39,27 +39,14 @@ namespace CSharpAdvanceDesignTests
                 {"model", new Product {Price = 100, Cost = 111}},
             };
 
-            var validators = JoeyOfType<IValidator<Product>>(arguments.Values);
+            var validators = arguments.Values.JoeyOfType<IValidator<Product>>();
 
-            var product = JoeyOfType<Product>(arguments.Values).Single();
+            var product = arguments.Values.JoeyOfType<Product>().Single();
 
             var isValid = validators.All(x => x.Validate(product));
 
             Assert.IsFalse(isValid);
             Assert.AreEqual(2, validators.Count());
-        }
-
-        private static IEnumerable<T> JoeyOfType<T>(IEnumerable values)
-        {
-            var enumerator = values.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (current is T z)
-                {
-                    yield return z;
-                }
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -261,6 +262,19 @@ namespace Lab
         {
             var comparer = Comparer<TKey>.Default;
             return source.CreateOrderedEnumerable(keySelector, comparer);
+        }
+
+        public static IEnumerable<T> JoeyOfType<T>(this IEnumerable values)
+        {
+            var enumerator = values.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (current is T z)
+                {
+                    yield return z;
+                }
+            }
         }
     }
 }
