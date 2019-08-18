@@ -54,13 +54,13 @@ namespace CSharpAdvanceDesignTests
             return ConvertToMyGrouping(lookup);
         }
 
-        private static IEnumerable<IGrouping<string, Employee>> ConvertToMyGrouping(Dictionary<string, List<Employee>> lookup)
+        private static IEnumerable<IGrouping<string, Employee>> ConvertToMyGrouping(Dictionary<string, List<Employee>> keyValuePairs)
         {
-            var enumerator = lookup.GetEnumerator();
+            var enumerator = keyValuePairs.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                var current = enumerator.Current;
-                yield return new MyGrouping(current.Key, current.Value);
+                var keyValuePair = enumerator.Current;
+                yield return new MyGrouping(keyValuePair.Key, keyValuePair.Value);
             }
         }
     }
