@@ -10,7 +10,7 @@ namespace CSharpAdvanceDesignTests
         [Test]
         public void intersect_numbers()
         {
-            var first = new[] { 1, 3, 5, 1 };
+            var first = new[] { 1, 3, 5, 1, 5 };
             var second = new[] { 5, 7, 3, 3 };
 
             var actual = JoeyIntersect(first, second);
@@ -24,13 +24,12 @@ namespace CSharpAdvanceDesignTests
         {
             //add IEnumerable<T> into hashSet can get a distinct-ed hashSet
             var secondHashSet = new HashSet<int>(second);
-            var firstHashSet = new HashSet<int>(first);
 
-            var firstEnumerator = firstHashSet.GetEnumerator();
+            var firstEnumerator = first.GetEnumerator();
             while (firstEnumerator.MoveNext())
             {
                 var current = firstEnumerator.Current;
-                if (!secondHashSet.Add(current))
+                if (secondHashSet.Remove(current))
                 {
                     yield return current;
                 }
