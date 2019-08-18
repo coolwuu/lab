@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CombineKeyComparer.cs" />
+    <Compile Include="ComboComparer.cs" />
     <Compile Include="Entities\Card.cs" />
     <Compile Include="Entities\CardKind.cs" />
     <Compile Include="Entities\CardType.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="Entities\Role.cs" />
     <Compile Include="IValidator.cs" />
     <Compile Include="LinQExtensions.cs" />
+    <Compile Include="MyOrderedEnumerable.cs" />
     <Compile Include="ProductValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

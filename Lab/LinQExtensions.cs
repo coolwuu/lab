@@ -245,5 +245,22 @@ namespace Lab
         {
             yield return defaultData;
         }
+
+        public static IEnumerable<TSource> JoeyOrderBy<TSource, TKey>(this IEnumerable<TSource> source, IComparer<TSource> comparer)
+        {
+            return new MyOrderedEnumerable<TSource, TKey>(source, comparer);
+        }
+
+        public static IMyOrderedEnumerable<TSource, TKey> JoeyOrderBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return new MyOrderedEnumerable<TSource, TKey>(source,
+                new CombineKeyComparer<TSource, TKey>(keySelector, Comparer<TKey>.Default));
+        }
+
+        public static IMyOrderedEnumerable<TSource, TKey> JoeyThenBy<TSource, TKey>(this IMyOrderedEnumerable<TSource, TKey> source, Func<TSource, TKey> keySelector)
+        {
+            var comparer = Comparer<TKey>.Default;
+            return source.CreateOrderedEnumerable(keySelector, comparer);
+        }
     }
 }
