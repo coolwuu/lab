@@ -7,6 +7,43 @@ using System.Linq;
 
 namespace CSharpAdvanceDesignTests
 {
+    public class MyLookUp : IEnumerable<IGrouping<string, Employee>>
+    {
+        private readonly Dictionary<string, List<Employee>> _lookup = new Dictionary<string, List<Employee>>();
+
+        public void AddElement(Employee current)
+        {
+            if (!_lookup.ContainsKey(current.LastName))
+            {
+                _lookup.Add(current.LastName, new List<Employee> { current });
+            }
+            else
+            {
+                _lookup[current.LastName].Add(current);
+            }
+        }
+
+        public IEnumerator<IGrouping<string, Employee>> ConvertToMyGrouping()
+        {
+            var enumerator = _lookup.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var keyValuePair = enumerator.Current;
+                yield return new MyGrouping(keyValuePair.Key, keyValuePair.Value);
+            }
+        }
+
+        public IEnumerator<IGrouping<string, Employee>> GetEnumerator()
+        {
+            return ConvertToMyGrouping();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
     [TestFixture]
     public class JoeyGroupByTests
     {
@@ -34,34 +71,18 @@ namespace CSharpAdvanceDesignTests
             firstGroup.ToExpectedObject().ShouldMatch(actual.First().ToList());
         }
 
-        private static IEnumerable<IGrouping<string, Employee>> JoeyGroupBy(IEnumerable<Employee> employees)
+        private IEnumerable<IGrouping<string, Employee>> JoeyGroupBy(IEnumerable<Employee> employees)
         {
-            var lookup = new Dictionary<string, List<Employee>>();
+            var myLookUp = new MyLookUp();
+
             var enumerator = employees.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 var current = enumerator.Current;
-                if (!lookup.ContainsKey(current.LastName))
-                {
-                    lookup.Add(current.LastName, new List<Employee> { current });
-                }
-                else
-                {
-                    lookup[current.LastName].Add(current);
-                }
+                myLookUp.AddElement(current);
             }
 
-            return ConvertToMyGrouping(lookup);
-        }
-
-        private static IEnumerable<IGrouping<string, Employee>> ConvertToMyGrouping(Dictionary<string, List<Employee>> keyValuePairs)
-        {
-            var enumerator = keyValuePairs.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var keyValuePair = enumerator.Current;
-                yield return new MyGrouping(keyValuePair.Key, keyValuePair.Value);
-            }
+            return myLookUp;
         }
     }
 
