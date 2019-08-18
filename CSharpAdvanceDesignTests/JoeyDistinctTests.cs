@@ -41,7 +41,6 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Joseph", LastName = "Chen"},
                 new Employee {FirstName = "Tom", LastName = "Li"},
             };
-            var a = new Object();
             expected.ToExpectedObject().ShouldMatch(actual);
         }
     }
