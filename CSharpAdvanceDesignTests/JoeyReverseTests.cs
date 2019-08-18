@@ -6,7 +6,6 @@ using System.Collections.Generic;
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture]
-    [Ignore("not yet")]
     public class JoeyReverseTests
     {
         [Test]
@@ -33,7 +32,18 @@ namespace CSharpAdvanceDesignTests
 
         private IEnumerable<Employee> JoeyReverse(IEnumerable<Employee> employees)
         {
-            throw new System.NotImplementedException();
+            //var stack = new Stack<Employee>();
+            //var enumerator = employees.GetEnumerator();
+            //while (enumerator.MoveNext())
+            //{
+            //    var current = enumerator.Current;
+            //    stack.Push(current);
+            //}
+            //while (stack.Any())
+            //{
+            //    yield return stack.Pop();
+            //}
+            return new Stack<Employee>(employees);
         }
     }
 }
