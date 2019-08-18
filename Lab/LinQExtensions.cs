@@ -276,5 +276,24 @@ namespace Lab
                 }
             }
         }
+
+        public static IEnumerable<TSource> Distinct<TSource>(this IEnumerable<TSource> employees, IEqualityComparer<TSource> comparer)
+        {
+            var enumerator = employees.GetEnumerator();
+            var hashSet = new HashSet<TSource>(comparer);
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (hashSet.Add(current))
+                {
+                    yield return current;
+                }
+            }
+        }
+
+        public static IEnumerable<TSource> Distinct<TSource>(IEnumerable<TSource> numbers)
+        {
+            return numbers.Distinct(EqualityComparer<TSource>.Default);
+        }
     }
 }
