@@ -64,18 +64,18 @@ namespace CSharpAdvanceDesignTests
         public void skip_second_and_take_others_positive_numbers()
         {
             var numbers = new List<int> { 1, 2, 3, 4, -5 };
-            var actual = JoeyWhereWithIndex(numbers, (index, number) => index != 1 && number > 0);
+            var actual = JoeyWhereWithIndex(numbers, (number, index) => index != 1 && number > 0);
             var expected = new List<int> { 1, 3, 4 };
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private List<int> JoeyWhereWithIndex(List<int> source, Func<int, int, bool> predicate)
+        private List<TSource> JoeyWhereWithIndex<TSource>(List<TSource> source, Func<TSource, int, bool> predicate)
         {
             var index = 0;
-            var result = new List<int>();
+            var result = new List<TSource>();
             foreach (var item in source)
             {
-                if (predicate(index, item))
+                if (predicate(item, index))
                 {
                     result.Add(item);
                 }
