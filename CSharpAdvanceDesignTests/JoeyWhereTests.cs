@@ -58,5 +58,19 @@ namespace CSharpAdvanceDesignTests
 
             expected.ToExpectedObject().ShouldMatch(actual);
         }
+
+        [Test]
+        public void skip_second_and_take_others_positive_numbers()
+        {
+            var numbers = new List<int> { 1, 2, 3, 4, -5 };
+            var actual = JoeyWhereWithIndex(numbers);
+            var expected = new List<int> { 1, 3, 4 };
+            expected.ToExpectedObject().ShouldMatch(actual);
+        }
+
+        private List<int> JoeyWhereWithIndex(List<int> numbers)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
