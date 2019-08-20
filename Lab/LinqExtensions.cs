@@ -36,9 +36,9 @@ namespace Lab
             return result;
         }
 
-        public static List<TSource> JoeySelect<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource> selector)
+        public static List<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            var result = new List<TSource>();
+            var result = new List<TResult>();
             foreach (var item in source)
             {
                 result.Add(selector(item));
@@ -47,9 +47,9 @@ namespace Lab
             return result;
         }
 
-        public static List<TSource> JoeySelect<TSource>(this IEnumerable<TSource> source, Func<TSource, int, TSource> selector)
+        public static List<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, int, TResult> selector)
         {
-            var result = new List<TSource>();
+            var result = new List<TResult>();
             int index = 0;
             foreach (var item in source)
             {
