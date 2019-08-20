@@ -36,24 +36,24 @@ namespace Lab
             return result;
         }
 
-        public static List<string> JoeySelect(this IEnumerable<string> urls, Func<string, string> selector)
+        public static List<TSource> JoeySelect<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource> selector)
         {
-            var result = new List<string>();
-            foreach (var url in urls)
+            var result = new List<TSource>();
+            foreach (var item in source)
             {
-                result.Add(selector(url));
+                result.Add(selector(item));
             }
 
             return result;
         }
 
-        public static List<string> JoeySelectWithIndex(this IEnumerable<string> urls, Func<string, int, string> selector)
+        public static List<TSource> JoeySelectWithIndex<TSource>(this IEnumerable<TSource> source, Func<TSource, int, TSource> selector)
         {
-            var result = new List<string>();
+            var result = new List<TSource>();
             int index = 0;
-            foreach (var url in urls)
+            foreach (var item in source)
             {
-                result.Add(selector(url, index));
+                result.Add(selector(item, index));
                 index++;
             }
 
