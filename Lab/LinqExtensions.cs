@@ -19,7 +19,7 @@ namespace Lab
             return result;
         }
 
-        public static List<TSource> JoeyWhereWithIndex<TSource>(this List<TSource> source, Func<TSource, int, bool> predicate)
+        public static List<TSource> JoeyWhere<TSource>(this List<TSource> source, Func<TSource, int, bool> predicate)
         {
             var index = 0;
             var result = new List<TSource>();
@@ -47,7 +47,7 @@ namespace Lab
             return result;
         }
 
-        public static List<TSource> JoeySelectWithIndex<TSource>(this IEnumerable<TSource> source, Func<TSource, int, TSource> selector)
+        public static List<TSource> JoeySelect<TSource>(this IEnumerable<TSource> source, Func<TSource, int, TSource> selector)
         {
             var result = new List<TSource>();
             int index = 0;

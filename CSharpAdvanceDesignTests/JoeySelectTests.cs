@@ -50,7 +50,7 @@ namespace CSharpAdvanceDesignTests
         {
             var urls = GetUrls();
 
-            var actual = urls.JoeySelectWithIndex((url, index) => $"{index + 1}. {url}");
+            var actual = urls.JoeySelect((url, index) => $"{index + 1}. {url}");
             var expected = new List<string>
             {
                 "1. http://tw.yahoo.com",
