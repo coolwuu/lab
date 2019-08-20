@@ -2,6 +2,7 @@
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +33,7 @@ namespace CSharpAdvanceDesignTests
         {
             var urls = GetUrls();
 
-            var actual = JoeySelectWithPort(urls);
+            var actual = JoeySelectWithPort(urls, url => $"{url}:9191");
             var expected = new List<string>
             {
                 "http://tw.yahoo.com:9191",
@@ -44,12 +45,12 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldEqual(actual.ToList());
         }
 
-        private List<string> JoeySelectWithPort(IEnumerable<string> urls)
+        private static List<string> JoeySelectWithPort(IEnumerable<string> urls, Func<string, string> selector)
         {
             var result = new List<string>();
             foreach (var url in urls)
             {
-                result.Add($"{url}:9191");
+                result.Add(selector(url));
             }
 
             return result;
