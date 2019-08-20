@@ -70,7 +70,7 @@ namespace CSharpAdvanceDesignTests
             yield return "http://github.com";
         }
 
-        private static List<Employee> GetEmployees()
+        private static IEnumerable<Employee> GetEmployees()
         {
             return new List<Employee>
             {

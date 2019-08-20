@@ -5,7 +5,7 @@ namespace Lab
 {
     public static class LinqExtensions
     {
-        public static List<TSource> JoeyWhere<TSource>(this List<TSource> source, Func<TSource, bool> predicate)
+        public static IEnumerable<TSource> JoeyWhere<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             var result = new List<TSource>();
             foreach (var item in source)
@@ -19,7 +19,7 @@ namespace Lab
             return result;
         }
 
-        public static List<TSource> JoeyWhere<TSource>(this List<TSource> source, Func<TSource, int, bool> predicate)
+        public static IEnumerable<TSource> JoeyWhere<TSource>(this IEnumerable<TSource> source, Func<TSource, int, bool> predicate)
         {
             var index = 0;
             var result = new List<TSource>();
@@ -36,7 +36,7 @@ namespace Lab
             return result;
         }
 
-        public static List<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        public static IEnumerable<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
             var result = new List<TResult>();
             foreach (var item in source)
@@ -47,7 +47,7 @@ namespace Lab
             return result;
         }
 
-        public static List<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, int, TResult> selector)
+        public static IEnumerable<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, int, TResult> selector)
         {
             var result = new List<TResult>();
             int index = 0;
