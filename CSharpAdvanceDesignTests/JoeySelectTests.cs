@@ -3,7 +3,6 @@ using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -65,7 +64,15 @@ namespace CSharpAdvanceDesignTests
 
         private List<string> JoeySelectWithIndex(IEnumerable<string> urls)
         {
-            throw new NotImplementedException();
+            var result = new List<string>();
+            int index = 0;
+            foreach (var url in urls)
+            {
+                result.Add($"{index + 1}. {url}");
+                index++;
+            }
+
+            return result;
         }
 
         private static IEnumerable<string> GetUrls()
