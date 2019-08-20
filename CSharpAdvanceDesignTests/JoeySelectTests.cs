@@ -1,5 +1,4 @@
-﻿using System;
-using ExpectedObjects;
+﻿using ExpectedObjects;
 using Lab;
 using Lab.Entities;
 using NUnit.Framework;
@@ -51,7 +50,7 @@ namespace CSharpAdvanceDesignTests
         {
             var urls = GetUrls();
 
-            var actual = JoeySelectWithIndex(urls, (url, index) => selector(url, index));
+            var actual = urls.JoeySelectWithIndex((url, index) => $"{index + 1}. {url}");
             var expected = new List<string>
             {
                 "1. http://tw.yahoo.com",
@@ -61,24 +60,6 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldEqual(actual.ToList());
-        }
-
-        private static List<string> JoeySelectWithIndex(IEnumerable<string> urls, Func<string, int, string> selector)
-        {
-            var result = new List<string>();
-            int index = 0;
-            foreach (var url in urls)
-            {
-                result.Add(selector(url, index));
-                index++;
-            }
-
-            return result;
-        }
-
-        private static string selector(string url, int index)
-        {
-            return $"{index + 1}. {url}";
         }
 
         private static IEnumerable<string> GetUrls()
