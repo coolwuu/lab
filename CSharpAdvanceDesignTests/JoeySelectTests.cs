@@ -5,6 +5,7 @@ using NUnit.Framework.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -16,7 +17,7 @@ namespace CSharpAdvanceDesignTests
         {
             var urls = GetUrls();
 
-            var actual = JoeySelect(urls, url => url.Replace("http://", "https://"));
+            var actual = urls.JoeySelect(url => url.Replace("http://", "https://"));
             var expected = new List<string>
             {
                 "https://tw.yahoo.com",
@@ -33,7 +34,7 @@ namespace CSharpAdvanceDesignTests
         {
             var urls = GetUrls();
 
-            var actual = JoeySelect(urls, url => $"{url}:9191");
+            var actual = urls.JoeySelect(url => $"{url}:9191");
             var expected = new List<string>
             {
                 "http://tw.yahoo.com:9191",
@@ -43,17 +44,6 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldEqual(actual.ToList());
-        }
-
-        private static List<string> JoeySelect(IEnumerable<string> urls, Func<string, string> selector)
-        {
-            var result = new List<string>();
-            foreach (var url in urls)
-            {
-                result.Add(selector(url));
-            }
-
-            return result;
         }
 
         private static IEnumerable<string> GetUrls()
