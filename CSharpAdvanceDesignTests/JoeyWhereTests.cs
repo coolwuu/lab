@@ -1,8 +1,8 @@
-﻿using System;
-using ExpectedObjects;
+﻿using ExpectedObjects;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
+using System;
 using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
@@ -59,9 +59,9 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private List<Product> JoeyWhere(List<Product> products, Func<Product, bool> predicate)
+        private List<TSource> JoeyWhere<TSource>(List<TSource> products, Func<TSource, bool> predicate)
         {
-            var result = new List<Product>();
+            var result = new List<TSource>();
             foreach (var product in products)
             {
                 if (predicate(product))
