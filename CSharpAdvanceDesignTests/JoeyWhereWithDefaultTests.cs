@@ -8,7 +8,6 @@ using System.Collections.Generic;
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture()]
-    [Ignore("not yet")]
     public class JoeyWhereWithDefaultTests
     {
         [Test]
@@ -34,7 +33,22 @@ namespace CSharpAdvanceDesignTests
         private IEnumerable<Employee> WhereWithDefault(IEnumerable<Employee> employees, Func<Employee, bool> predicate,
             Employee defaultEmployee)
         {
-            throw new NotImplementedException();
+            var enumerator = employees.GetEnumerator();
+            var hasEmployee = false;
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (predicate(current))
+                {
+                    hasEmployee = true;
+                    yield return current;
+                }
+            }
+
+            if (!hasEmployee)
+            {
+                yield return defaultEmployee;
+            }
         }
     }
 }
