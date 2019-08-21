@@ -1,5 +1,6 @@
 ﻿using ExpectedObjects;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -14,9 +15,16 @@ namespace CSharpAdvanceDesignTests
             4.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private int JoeyLast(int[] numbers)
+        private int JoeyLast(IEnumerable<int> numbers)
         {
-            throw new System.NotImplementedException();
+            var enumerator = numbers.GetEnumerator();
+            var result = 0;
+            while (enumerator.MoveNext())
+            {
+                result = enumerator.Current;
+            }
+
+            return result;
         }
     }
 }
