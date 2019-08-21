@@ -1,6 +1,7 @@
 ﻿using ExpectedObjects;
 using Lab.Entities;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,7 +36,7 @@ namespace CSharpAdvanceDesignTests
 
         private IEnumerable<Employee> JoeySelect(IEnumerable<Employee> employees)
         {
-            throw new System.NotImplementedException();
+            throw new InvalidOperationException();
         }
     }
 }
