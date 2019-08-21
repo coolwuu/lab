@@ -1,8 +1,8 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,7 +25,7 @@ namespace CSharpAdvanceDesignTests
                 new Card {Kind = CardKind.Separate},
             };
 
-            var actual = JoeySkipWhile(cards, current => current.Kind == CardKind.Separate);
+            var actual = cards.JoeySkipWhile(current => current.Kind == CardKind.Separate);
 
             var expected = new List<Card>
             {
@@ -52,7 +52,7 @@ namespace CSharpAdvanceDesignTests
                 new Card {Kind = CardKind.Separate},
             };
 
-            var actual = JoeySkipWhile(cards, current => current.Point >= 5);
+            var actual = cards.JoeySkipWhile(current => current.Point >= 5);
 
             var expected = new List<Card>
             {
@@ -62,21 +62,6 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private IEnumerable<Card> JoeySkipWhile(IEnumerable<Card> cards, Func<Card, bool> predicate)
-        {
-            var stopSkipping = false;
-            var enumerator = cards.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (predicate(current) || stopSkipping)
-                {
-                    stopSkipping = true;
-                    yield return current;
-                }
-            }
         }
     }
 }
