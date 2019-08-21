@@ -40,15 +40,15 @@ namespace CSharpAdvanceDesignTests
             return default(int?);
         }
 
-        private Employee JoeyFirstOrDefault(IEnumerable<Employee> employees)
+        private static TSource JoeyFirstOrDefault<TSource>(IEnumerable<TSource> source)
         {
-            var enumerator = employees.GetEnumerator();
+            var enumerator = source.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 return enumerator.Current;
             }
 
-            return default(Employee);
+            return default(TSource);
         }
     }
 }
