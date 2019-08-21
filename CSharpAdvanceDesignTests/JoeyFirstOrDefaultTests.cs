@@ -3,6 +3,7 @@ using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
+using System;
 using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
@@ -40,25 +41,10 @@ namespace CSharpAdvanceDesignTests
                 new Girl(){Age = 30},
             };
 
-            var girl = JoeyFirstOrDefault(girls);
+            var girl = girls.JoeyFirstOrDefault(g => g.Age == 20);
             var expected = new Girl { Age = 20 };
 
             expected.ToExpectedObject().ShouldEqual(girl);
-        }
-
-        private Girl JoeyFirstOrDefault(IEnumerable<Girl> girls)
-        {
-            var enumerator = girls.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (current.Age == 20)
-                {
-                    return current;
-                }
-            }
-
-            return default(Girl);
         }
     }
 }

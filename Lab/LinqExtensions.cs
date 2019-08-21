@@ -198,5 +198,20 @@ namespace Lab
 
             return default(TSource);
         }
+
+        public static TSource JoeyFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (predicate(current))
+                {
+                    return current;
+                }
+            }
+
+            return default(TSource);
+        }
     }
 }
