@@ -7,7 +7,6 @@ using System.Collections.Generic;
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture()]
-    [Ignore("not yet")]
     public class JoeyTakeTests
     {
         [Test]
@@ -23,12 +22,27 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Tom", LastName = "Li"},
             };
 
-            expected.ToExpectedObject().ShouldEqual(actual);
+            expected.ToExpectedObject().ShouldMatch(actual);
         }
 
         private IEnumerable<Employee> JoeyTake(IEnumerable<Employee> employees)
         {
-            throw new System.NotImplementedException();
+            var enumerator = employees.GetEnumerator();
+            var count = 0;
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (count < 2)
+                {
+                    yield return current;
+                }
+                else
+                {
+                    yield break;
+                }
+
+                count++;
+            }
         }
 
         private static IEnumerable<Employee> GetEmployees()
