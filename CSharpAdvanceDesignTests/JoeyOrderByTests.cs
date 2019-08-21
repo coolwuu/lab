@@ -1,6 +1,7 @@
 ﻿using ExpectedObjects;
 using Lab.Entities;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,7 +44,7 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Joey", LastName = "Chen"},
             };
 
-            var actual = JoeyOrderByLastNameAndFirstName(employees);
+            var actual = JoeyOrderByLastNameAndFirstName(employees, current => current.LastName, Comparer<string>.Default);
 
             var expected = new[]
             {
@@ -56,9 +57,11 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private IEnumerable<Employee> JoeyOrderByLastNameAndFirstName(IEnumerable<Employee> employees)
+        private IEnumerable<Employee> JoeyOrderByLastNameAndFirstName(
+            IEnumerable<Employee> employees,
+            Func<Employee, string> firstKeySelector,
+            Comparer<string> firstKeyComparer)
         {
-            var stringComparer = Comparer<string>.Default;
             var elements = employees.ToList();
             while (elements.Any())
             {
@@ -66,16 +69,17 @@ namespace CSharpAdvanceDesignTests
                 var index = 0;
                 for (int i = 1; i < elements.Count; i++)
                 {
-                    if (stringComparer.Compare(elements[i].LastName, minElement.LastName) < 0)
+                    var current = elements[i];
+                    if (firstKeyComparer.Compare(firstKeySelector(current), minElement.LastName) < 0)
                     {
-                        minElement = elements[i];
+                        minElement = current;
                         index = i;
                     }
-                    else if (stringComparer.Compare(elements[i].LastName, minElement.LastName) == 0)
+                    else if (Comparer<string>.Default.Compare(firstKeySelector(current), minElement.LastName) == 0)
                     {
-                        if (stringComparer.Compare(elements[i].FirstName, minElement.FirstName) < 0)
+                        if (Comparer<string>.Default.Compare(current.FirstName, minElement.FirstName) < 0)
                         {
-                            minElement = elements[i];
+                            minElement = current;
                             index = i;
                         }
                     }
