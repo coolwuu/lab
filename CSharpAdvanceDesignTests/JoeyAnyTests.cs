@@ -1,6 +1,6 @@
-﻿using Lab.Entities;
+﻿using Lab;
+using Lab.Entities;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -17,7 +17,7 @@ namespace CSharpAdvanceDesignTests
                 new Employee(),
             };
 
-            var actual = JoeyAny(emptyEmployees);
+            var actual = emptyEmployees.JoeyAny();
             Assert.IsTrue(actual);
         }
 
@@ -28,13 +28,8 @@ namespace CSharpAdvanceDesignTests
             {
             };
 
-            var actual = JoeyAny(emptyEmployees);
+            var actual = emptyEmployees.JoeyAny();
             Assert.IsFalse(actual);
-        }
-
-        private static bool JoeyAny<TSource>(IEnumerable<TSource> source)
-        {
-            return source.GetEnumerator().MoveNext();
         }
     }
 }
