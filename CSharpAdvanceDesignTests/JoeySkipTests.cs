@@ -56,5 +56,20 @@ namespace CSharpAdvanceDesignTests
 
             expected.ToExpectedObject().ShouldEqual(actual.ToList());
         }
+
+        [Test]
+        public void skip_5_numbers()
+        {
+            var numbers = new[] { 1, 2, 3 };
+            var actual = JoeySkip(numbers, 5);
+
+            var expected = new int[] { };
+            expected.ToExpectedObject().ShouldMatch(actual);
+        }
+
+        private List<int> JoeySkip(int[] numbers, int i)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
