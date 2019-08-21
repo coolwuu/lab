@@ -43,7 +43,7 @@ namespace CSharpAdvanceDesignTests
                 return enumerator.Current;
             }
 
-            return null;
+            throw new InvalidOperationException();
         }
     }
 }
