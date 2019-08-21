@@ -33,6 +33,29 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldEqual(actual.ToList());
         }
 
+        [Test]
+        public void skip_3_employees()
+        {
+            var employees = new List<Employee>
+            {
+                new Employee {FirstName = "Joey", LastName = "Chen"},
+                new Employee {FirstName = "Tom", LastName = "Li"},
+                new Employee {FirstName = "David", LastName = "Chen"},
+                new Employee {FirstName = "Mike", LastName = "Chang"},
+                new Employee {FirstName = "Joseph", LastName = "Yao"},
+            };
+
+            var actual = JoeySkip(employees);
+
+            var expected = new List<Employee>
+            {
+                new Employee {FirstName = "Mike", LastName = "Chang"},
+                new Employee {FirstName = "Joseph", LastName = "Yao"},
+            };
+
+            expected.ToExpectedObject().ShouldEqual(actual.ToList());
+        }
+
         private IEnumerable<Employee> JoeySkip(IEnumerable<Employee> employees)
         {
             var index = 0;
