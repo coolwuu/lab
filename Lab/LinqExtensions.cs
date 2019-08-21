@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Lab.Entities;
 
 namespace Lab
 {
@@ -277,6 +278,16 @@ namespace Lab
             }
 
             return result;
+        }
+
+        public static IEnumerable<Employee> DefaultIfEmpty(this IEnumerable<Employee> employees, Employee defaultEmployee)
+        {
+            return !employees.GetEnumerator().MoveNext() ? JoeyDefaultIfEmpty(defaultEmployee) : employees;
+        }
+
+        private static IEnumerable<Employee> JoeyDefaultIfEmpty(Employee defaultEmployee)
+        {
+            yield return defaultEmployee;
         }
     }
 }
