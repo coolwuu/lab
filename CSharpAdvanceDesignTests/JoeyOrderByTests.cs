@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -37,13 +38,7 @@ namespace CSharpAdvanceDesignTests
 
         public int Compare(Employee x, Employee y)
         {
-            var firstCompareResult = FirstComparer.Compare(x, y);
-            if (firstCompareResult < 0)
-            {
-                return firstCompareResult;
-            }
-
-            return SecondComparer.Compare(x, y);
+            return FirstComparer.Compare(x, y) < 0 ? FirstComparer.Compare(x, y) : SecondComparer.Compare(x, y);
         }
     }
 
@@ -84,7 +79,10 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Joey", LastName = "Chen"},
             };
 
-            var actual = JoeyOrderByLastNameAndFirstName(employees, new ComboComparer(new CombineKeyComparer(e => e.LastName, Comparer<string>.Default), new CombineKeyComparer(e => e.FirstName, Comparer<string>.Default)));
+            var firstComparer = new CombineKeyComparer(e => e.LastName, Comparer<string>.Default);
+            var secondComparer = new CombineKeyComparer(e => e.FirstName, Comparer<string>.Default);
+            var comboComparer = new ComboComparer(firstComparer, secondComparer);
+            var actual = employees.JoeyOrderByLastNameAndFirstName(comboComparer);
 
             var expected = new[]
             {
@@ -95,32 +93,6 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private static IEnumerable<Employee> JoeyOrderByLastNameAndFirstName(
-            IEnumerable<Employee> employees,
-            ComboComparer comboComparer)
-        {
-            var elements = employees.ToList();
-            while (elements.Any())
-            {
-                var minElement = elements[0];
-                var index = 0;
-                for (int i = 1; i < elements.Count; i++)
-                {
-                    var current = elements[i];
-                    var finalCompareResult = comboComparer.Compare(current, minElement);
-
-                    if (finalCompareResult < 0)
-                    {
-                        minElement = current;
-                        index = i;
-                    }
-                }
-
-                elements.RemoveAt(index);
-                yield return minElement;
-            }
         }
     }
 }

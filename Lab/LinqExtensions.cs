@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Lab.Entities;
+using System.Linq;
 
 namespace Lab
 {
@@ -280,14 +280,39 @@ namespace Lab
             return result;
         }
 
-        public static IEnumerable<Employee> DefaultIfEmpty(this IEnumerable<Employee> employees, Employee defaultEmployee)
+        public static IEnumerable<TSource> DefaultIfEmpty<TSource>(this IEnumerable<TSource> employees, TSource defaultEmployee)
         {
             return !employees.GetEnumerator().MoveNext() ? JoeyDefaultIfEmpty(defaultEmployee) : employees;
         }
 
-        private static IEnumerable<Employee> JoeyDefaultIfEmpty(Employee defaultEmployee)
+        private static IEnumerable<TSource> JoeyDefaultIfEmpty<TSource>(TSource defaultEmployee)
         {
             yield return defaultEmployee;
+        }
+
+        public static IEnumerable<TSource> JoeyOrderByLastNameAndFirstName<TSource>(this IEnumerable<TSource> source,
+            IComparer<TSource> comboComparer)
+        {
+            var elements = source.ToList();
+            while (elements.Any())
+            {
+                var minElement = elements[0];
+                var index = 0;
+                for (int i = 1; i < elements.Count; i++)
+                {
+                    var current = elements[i];
+                    var finalCompareResult = comboComparer.Compare(current, minElement);
+
+                    if (finalCompareResult < 0)
+                    {
+                        minElement = current;
+                        index = i;
+                    }
+                }
+
+                elements.RemoveAt(index);
+                yield return minElement;
+            }
         }
     }
 }
