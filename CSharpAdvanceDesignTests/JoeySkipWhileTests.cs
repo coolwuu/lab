@@ -2,7 +2,6 @@
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,7 +39,17 @@ namespace CSharpAdvanceDesignTests
 
         private IEnumerable<Card> JoeySkipWhile(IEnumerable<Card> cards)
         {
-            throw new NotImplementedException();
+            var stopSkipping = false;
+            var enumerator = cards.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (current.Kind == CardKind.Separate || stopSkipping)
+                {
+                    stopSkipping = true;
+                    yield return current;
+                }
+            }
         }
     }
 }
