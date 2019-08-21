@@ -54,20 +54,15 @@ namespace CSharpAdvanceDesignTests
         {
             var names = new[] { "Tom", "Joey", "David" };
 
-            var actual = JoeyTakeString(names, 3);
+            var actual = JoeyTake(names, 3);
 
             var expected = new[] { "Tom", "Joey", "David" };
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private List<string> JoeyTakeString(string[] names, int count)
+        private IEnumerable<TSource> JoeyTake<TSource>(IEnumerable<TSource> source, int count)
         {
-            throw new System.NotImplementedException();
-        }
-
-        private IEnumerable<Employee> JoeyTake(IEnumerable<Employee> employees, int count)
-        {
-            var enumerator = employees.GetEnumerator();
+            var enumerator = source.GetEnumerator();
             var index = 0;
             while (enumerator.MoveNext())
             {
