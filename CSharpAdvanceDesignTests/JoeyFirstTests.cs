@@ -26,7 +26,13 @@ namespace CSharpAdvanceDesignTests
 
         private Girl JoeyFirst(IEnumerable<Girl> girls)
         {
-            throw new System.NotImplementedException();
+            var enumerator = girls.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                return enumerator.Current;
+            }
+
+            return null;
         }
     }
 }
