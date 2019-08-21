@@ -1,7 +1,6 @@
 ﻿using ExpectedObjects;
 using Lab.Entities;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,7 +21,7 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Joseph", LastName = "Yao"},
             };
 
-            var actual = JoeySelect(employees);
+            var actual = JoeySkip(employees);
 
             var expected = new List<Employee>
             {
@@ -34,9 +33,19 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldEqual(actual.ToList());
         }
 
-        private IEnumerable<Employee> JoeySelect(IEnumerable<Employee> employees)
+        private IEnumerable<Employee> JoeySkip(IEnumerable<Employee> employees)
         {
-            throw new InvalidOperationException();
+            var index = 0;
+            var enumerator = employees.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (index + 1 > 2)
+                {
+                    yield return current;
+                }
+                index++;
+            }
         }
     }
 }
