@@ -1,6 +1,7 @@
 ﻿using ExpectedObjects;
 using Lab.Entities;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
@@ -22,6 +23,16 @@ namespace CSharpAdvanceDesignTests
             var expected = new Girl { Age = 10 };
 
             expected.ToExpectedObject().ShouldEqual(girl);
+        }
+
+        [Test]
+        public void get_first_girl_when_girls_is_empty()
+        {
+            var girls = new Girl[] { };
+
+            TestDelegate action = () => JoeyFirst(girls);
+
+            Assert.Throws<InvalidOperationException>(action);
         }
 
         private Girl JoeyFirst(IEnumerable<Girl> girls)
