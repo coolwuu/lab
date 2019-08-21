@@ -48,7 +48,7 @@ namespace CSharpAdvanceDesignTests
                 new Card {Kind = CardKind.Normal, Point = 6},
             };
 
-            var actual = JoeyTakeWhileCardPointLessThan4(cards, current => current.Point < 4);
+            var actual = JoeyTakeWhile(cards, current => current.Point < 4);
 
             var expected = new List<Card>
             {
@@ -57,23 +57,6 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private IEnumerable<Card> JoeyTakeWhileCardPointLessThan4(IEnumerable<Card> cards, Func<Card, bool> predicate)
-        {
-            var enumerator = cards.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (predicate(current))
-                {
-                    yield return current;
-                }
-                else
-                {
-                    yield break;
-                }
-            }
         }
 
         private IEnumerable<Card> JoeyTakeWhile(IEnumerable<Card> cards, Func<Card, bool> predicate)
