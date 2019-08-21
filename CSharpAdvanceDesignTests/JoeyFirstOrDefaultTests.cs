@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
+using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -13,7 +14,7 @@ namespace CSharpAdvanceDesignTests
         {
             var employees = new List<Employee>();
 
-            var actual = JoeyFirstOrDefault(employees);
+            var actual = employees.JoeyFirstOrDefault();
 
             Assert.IsNull(actual);
         }
@@ -23,32 +24,9 @@ namespace CSharpAdvanceDesignTests
         {
             var numbers = new List<int?>();
 
-            var actual = JoeyFirstOrDefaultForNullableInt(numbers);
+            var actual = numbers.JoeyFirstOrDefault();
 
             Assert.IsNull(actual);
-        }
-
-        private int? JoeyFirstOrDefaultForNullableInt(IEnumerable<int?> numbers)
-        {
-            var enumerator = numbers.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                return current;
-            }
-
-            return default(int?);
-        }
-
-        private static TSource JoeyFirstOrDefault<TSource>(IEnumerable<TSource> source)
-        {
-            var enumerator = source.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                return enumerator.Current;
-            }
-
-            return default(TSource);
         }
     }
 }
