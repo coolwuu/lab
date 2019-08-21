@@ -18,7 +18,15 @@ namespace CSharpAdvanceDesignTests
 
         private Employee JoeyLastOrDefault(IEnumerable<Employee> employees)
         {
-            throw new System.NotImplementedException();
+            var enumerator = employees.GetEnumerator();
+            var result = default(Employee);
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                result = current;
+            }
+
+            return result;
         }
     }
 }
