@@ -15,12 +15,25 @@ namespace CSharpAdvanceDesignTests
 
             var actual = JoeyAverage(numbers);
 
-            4.ToExpectedObject().ShouldMatch(actual);
+            4d.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private double? JoeyAverage(IEnumerable<int?> numbers)
+        private static double? JoeyAverage(IEnumerable<int?> numbers)
         {
-            throw new System.NotImplementedException();
+            var enumerator = numbers.GetEnumerator();
+            var result = 0;
+            var count = 0;
+            while (enumerator.MoveNext())
+            {
+                var number = enumerator.Current;
+                if (number.HasValue)
+                {
+                    result += number.Value;
+                    count++;
+                }
+            }
+
+            return result / (double)count;
         }
     }
 }
