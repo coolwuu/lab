@@ -1,4 +1,5 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -57,22 +58,19 @@ namespace CSharpAdvanceDesignTests
         private IEnumerable<Employee> WhereWithDefault(IEnumerable<Employee> employees, Func<Employee, bool> predicate,
             Employee defaultEmployee)
         {
-            var enumerator = employees.GetEnumerator();
-            var hasEmployee = false;
-            while (enumerator.MoveNext())
+            var matchedEmployees = employees.JoeyWhere(predicate);
+            var matchedEnumerator = matchedEmployees.GetEnumerator();
+            if (!matchedEnumerator.MoveNext())
             {
-                var current = enumerator.Current;
-                if (predicate(current))
-                {
-                    hasEmployee = true;
-                    yield return current;
-                }
+                return DefaultIfEmpty(defaultEmployee);
             }
 
-            if (!hasEmployee)
-            {
-                yield return defaultEmployee;
-            }
+            return matchedEmployees;
+        }
+
+        private IEnumerable<Employee> DefaultIfEmpty(Employee defaultEmployee)
+        {
+            yield return defaultEmployee;
         }
     }
 }
