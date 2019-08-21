@@ -213,5 +213,17 @@ namespace Lab
 
             return default(TSource);
         }
+
+        public static TSource JoeyLast<TSource>(this IEnumerable<TSource> source)
+        {
+            var enumerator = source.GetEnumerator();
+            TSource result = default(TSource);
+            while (enumerator.MoveNext())
+            {
+                result = enumerator.Current;
+            }
+
+            return result;
+        }
     }
 }
