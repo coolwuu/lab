@@ -1,4 +1,5 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -13,7 +14,7 @@ namespace CSharpAdvanceDesignTests
         public void get_null_when_employees_is_empty()
         {
             var employees = new List<Employee>();
-            var actual = JoeyLastOrDefault(employees);
+            var actual = employees.JoeyLastOrDefault();
             Assert.IsNull(actual);
         }
 
@@ -27,37 +28,8 @@ namespace CSharpAdvanceDesignTests
                 new Employee() {FirstName = "Tom", Role = Role.Manager},
                 new Employee() {FirstName = "May", Role = Role.Engineer},
             };
-            var actual = JoeyLastOrDefaultWithCondition(employees);
+            var actual = employees.JoeyLastOrDefault(e => e.Role == Role.Manager);
             new Employee() { FirstName = "Tom", Role = Role.Manager }.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private Employee JoeyLastOrDefaultWithCondition(IEnumerable<Employee> employees)
-        {
-            var enumerator = employees.GetEnumerator();
-            var result = default(Employee);
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (current.Role == Role.Manager)
-                {
-                    result = current;
-                }
-            }
-
-            return result;
-        }
-
-        private Employee JoeyLastOrDefault(IEnumerable<Employee> employees)
-        {
-            var enumerator = employees.GetEnumerator();
-            var result = default(Employee);
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                result = current;
-            }
-
-            return result;
         }
     }
 }
