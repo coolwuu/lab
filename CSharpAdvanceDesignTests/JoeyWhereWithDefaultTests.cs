@@ -3,7 +3,6 @@ using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
 using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
