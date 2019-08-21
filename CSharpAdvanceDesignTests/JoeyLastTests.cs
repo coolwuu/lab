@@ -34,29 +34,10 @@ namespace CSharpAdvanceDesignTests
                 new Employee() {FirstName = "Lilia", LastName = "Wuu"},
                 new Employee() {FirstName = "Lu", LastName = "Wuu"},
             };
-            var actual = JoeyLast<Employee>(employees, e => e.LastName == "Wuu");
+            var actual = employees.JoeyLast(e => e.LastName == "Wuu");
 
             var expected = new Employee() { FirstName = "Lu", LastName = "Wuu" };
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private static TSource JoeyLast<TSource>(IEnumerable<TSource> employees, Func<TSource, bool> predicate)
-        {
-            var enumerator = employees.GetEnumerator();
-            var matched = false;
-            TSource result = default(TSource);
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (predicate(current))
-                {
-                    matched = true;
-                    result = current;
-                }
-            }
-            if (!matched)
-                throw new InvalidOperationException();
-            return result;
         }
     }
 }

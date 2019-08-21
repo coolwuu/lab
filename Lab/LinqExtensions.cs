@@ -230,5 +230,24 @@ namespace Lab
 
             return result;
         }
+
+        public static TSource JoeyLast<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var enumerator = source.GetEnumerator();
+            var matched = false;
+            TSource result = default(TSource);
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (predicate(current))
+                {
+                    matched = true;
+                    result = current;
+                }
+            }
+            if (!matched)
+                throw new InvalidOperationException();
+            return result;
+        }
     }
 }
