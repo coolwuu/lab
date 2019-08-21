@@ -1,4 +1,5 @@
-﻿using Lab.Entities;
+﻿using System;
+using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
@@ -16,6 +17,21 @@ namespace CSharpAdvanceDesignTests
             var actual = JoeyFirstOrDefault(employees);
 
             Assert.IsNull(actual);
+        }
+        
+        [Test]
+        public void nullable_of_int_first_or_default()
+        {
+            var numbers = new List<int?>();
+
+            var actual = JoeyFirstOrDefaultForNullableInt(numbers);
+
+            Assert.IsNull(actual);
+        }
+
+        private int? JoeyFirstOrDefaultForNullableInt(IEnumerable<int?> numbers)
+        {
+            throw new NotImplementedException();
         }
 
         private Employee JoeyFirstOrDefault(IEnumerable<Employee> employees)
