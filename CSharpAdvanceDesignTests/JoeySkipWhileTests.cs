@@ -66,17 +66,7 @@ namespace CSharpAdvanceDesignTests
 
         private IEnumerable<Card> JoeySkipWhilePointLessThan5(IEnumerable<Card> cards, Func<Card, bool> predicate)
         {
-            var stopSkipping = false;
-            var enumerator = cards.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (predicate(current) || stopSkipping)
-                {
-                    stopSkipping = true;
-                    yield return current;
-                }
-            }
+            return JoeySkipWhile(cards, predicate);
         }
 
         private IEnumerable<Card> JoeySkipWhile(IEnumerable<Card> cards, Func<Card, bool> predicate)
