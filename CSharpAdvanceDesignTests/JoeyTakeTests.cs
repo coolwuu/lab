@@ -14,7 +14,7 @@ namespace CSharpAdvanceDesignTests
         {
             var employees = GetEmployees();
 
-            var actual = JoeyTake(employees);
+            var actual = JoeyTake(employees, 2);
 
             var expected = new List<Employee>
             {
@@ -49,14 +49,14 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private IEnumerable<Employee> JoeyTake(IEnumerable<Employee> employees)
+        private IEnumerable<Employee> JoeyTake(IEnumerable<Employee> employees, int count)
         {
             var enumerator = employees.GetEnumerator();
-            var count = 0;
+            var index = 0;
             while (enumerator.MoveNext())
             {
                 var current = enumerator.Current;
-                if (count < 2)
+                if (index < count)
                 {
                     yield return current;
                 }
@@ -65,7 +65,7 @@ namespace CSharpAdvanceDesignTests
                     yield break;
                 }
 
-                count++;
+                index++;
             }
         }
 
