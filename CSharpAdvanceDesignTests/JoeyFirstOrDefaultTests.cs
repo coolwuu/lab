@@ -1,8 +1,9 @@
-﻿using Lab.Entities;
+﻿using ExpectedObjects;
+using Lab;
+using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
-using Lab;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -27,6 +28,37 @@ namespace CSharpAdvanceDesignTests
             var actual = numbers.JoeyFirstOrDefault();
 
             Assert.IsNull(actual);
+        }
+
+        [Test]
+        public void return_first_girl_age_equal_to_20()
+        {
+            var girls = new[]
+            {
+                new Girl(){Age = 10},
+                new Girl(){Age = 20},
+                new Girl(){Age = 30},
+            };
+
+            var girl = JoeyFirstOrDefault(girls);
+            var expected = new Girl { Age = 20 };
+
+            expected.ToExpectedObject().ShouldEqual(girl);
+        }
+
+        private Girl JoeyFirstOrDefault(IEnumerable<Girl> girls)
+        {
+            var enumerator = girls.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (current.Age == 20)
+                {
+                    return current;
+                }
+            }
+
+            return default(Girl);
         }
     }
 }
